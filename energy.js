@@ -1,5 +1,5 @@
 const mqtt = require('mqtt');
-const my_topic_name = "bludragon/feeds/demoE";
+const my_topic_name = "";
 
 const url = "mqtts://io.adafruit.com";
 
@@ -16,8 +16,8 @@ const fan = 50, light = 20, s_light = 5; // Wattage per hour of appliance
 let options = {
   port: 8883,
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-  username: "bludragon",
-  password: "64d04ed1fc00401493dcceaaf30db5c0",
+  username: "",
+  password: "",
 };
 
 // Create a client connection
