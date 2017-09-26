@@ -1,0 +1,14 @@
+{
+  "name": "energy-js",
+  "version": "1.0.0",
+  "description": "calculate energy",
+  "main": "energy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Prateek Jha",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^2.13.0"
+  }
+}
