@@ -1,4 +1,6 @@
 const mqtt = require('mqtt');
+const fs = require('fs');
+
 const my_topic_name = "";
 
 const url = "mqtts://io.adafruit.com";
@@ -7,11 +9,18 @@ let past = Math.round(Date.now()/1000); // Seconds since EPOCH
 let day = Math.round(((Date.now()/1000)+19800)/86400); // Day since EPOCH
 let prev_data = "0,0,0";
 
+// Total consumption per day
 let ePD = 0;
 
-let e_Array = [];
+//let e_Array = [];
 
-const fan = 50, light = 20, s_light = 5; // Wattage per hour of appliance
+// Wattage per hour of appliance
+const fan = 50, light = 20, s_light = 5; 
+
+// For file creation/initialization
+let file_ob = {
+    energyList:[]
+};
 
 let options = {
   port: 8883,
@@ -59,6 +68,7 @@ client.on('connect', function() { // When connected
 
             let date = new Date();
 
+            // Saving to file if Day is changed
             if(Math.round((now+19800)/86400) > day){
 
                 let data = {
@@ -67,8 +77,22 @@ client.on('connect', function() { // When connected
                 }
                 //console.log(data);
 
+                // Wrting to JSON File
+                if(fs.existsSync('energyData.json')){
+
+                    let obj = JSON.parse(fs.readFileSync('energyData.json','utf8'));
+                    //console.log(obj);
+                    obj.energyList.push(data);
+                    fs.writeFileSync('energyData.json',JSON.stringify(obj),'utf8');
+
+                }else{
+
+                    file_ob.energyList.push(data);
+                    fs.writeFileSync('energyData.json',JSON.stringify(file_ob),'utf8');
+                }
+
                 // Updating variables
-                e_Array.push(data);
+                //e_Array.push(data);
                 ePD = 0;
                 day = Math.round((now+19800)/86400);
             }
